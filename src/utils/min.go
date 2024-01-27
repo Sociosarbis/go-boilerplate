@@ -9,3 +9,14 @@ func Min(num ...int) int {
 	}
 	return min
 }
+
+func Max(nums ...int) int {
+	ret := nums[0]
+	n := len(nums)
+	for i := 1; i < n; i++ {
+		if nums[i] > ret {
+			ret = nums[i]
+		}
+	}
+	return ret
+}

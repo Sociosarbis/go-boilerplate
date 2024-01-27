@@ -1,6 +1,10 @@
 package queries
 
-import "math"
+import (
+	"math"
+
+	"github.com/boilerplate/src/utils"
+)
 
 func minOperationsQueries(n int, edges [][]int, queries [][]int) []int {
 	freq := make([][]int, n)
@@ -34,9 +38,9 @@ func minOperationsQueries(n int, edges [][]int, queries [][]int) []int {
 	ret := make([]int, len(queries))
 	for i, query := range queries {
 		if query[0] == 0 {
-			ret[i] = sum(freq[query[1]]) - max(freq[query[1]])
+			ret[i] = sum(freq[query[1]]) - utils.Max(freq[query[1]]...)
 		} else if query[1] == 0 {
-			ret[i] = sum(freq[query[0]]) - max(freq[query[0]])
+			ret[i] = sum(freq[query[0]]) - utils.Max(freq[query[0]]...)
 		} else {
 			ancestor := lca(query[0], query[1], up, tin, tout)
 			n := sum(freq[query[0]]) + sum(freq[query[1]]) - sum(freq[ancestor])*2
@@ -98,17 +102,6 @@ func lca(u int, v int, up [][]int, tin []int, tout []int) int {
 		}
 	}
 	return up[u][0]
-}
-
-func max(nums []int) int {
-	ret := nums[0]
-	n := len(nums)
-	for i := 1; i < n; i++ {
-		if nums[i] > ret {
-			ret = nums[i]
-		}
-	}
-	return ret
 }
 
 func sum(nums []int) int {
