@@ -27,3 +27,7 @@ func (h *Heap[T]) Pop() any {
 	h.items = h.items[0 : n-1]
 	return x
 }
+
+func (h *Heap[T]) Top() T {
+	return h.items[0]
+}
