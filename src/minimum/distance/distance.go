@@ -7,6 +7,7 @@ func minimumDistance(points [][]int) int {
 	transformed := make([][2]int, n)
 
 	for i, point := range points {
+		// 距离计算所需的元素，都可以用这两个数来表示
 		transformed[i][0], transformed[i][1] = point[0]+point[1], point[0]-point[1]
 	}
 
