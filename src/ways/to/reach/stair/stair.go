@@ -40,7 +40,7 @@ func waysToReachStair(k int) int {
 	for base-k <= x+1 {
 		y := base - k
 		if y >= 0 {
-			ret += n(x+1-y, x+1, 2, y)
+			ret += n(x+1-y, x+1, y)
 		}
 		base *= 2
 		x++
