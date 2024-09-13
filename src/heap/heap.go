@@ -8,7 +8,9 @@ type Heap[T any] struct {
 }
 
 func New[T any](items []T, less func(a, b T) bool) Heap[T] {
-	h := Heap[T]{items, less}
+	newItems := make([]T, len(items))
+	copy(newItems, items)
+	h := Heap[T]{items: newItems, less: less}
 	heap.Init(&h)
 	return h
 }
