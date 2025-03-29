@@ -1,7 +1,5 @@
 package cycle
 
-import "fmt"
-
 func longestCycle(edges []int) int {
 	n := len(edges)
 	inDeg := make([]int, n)
@@ -40,7 +38,6 @@ func longestCycle(edges []int) int {
 		if !visited[i] {
 			var temp int
 			next := edges[i]
-			fmt.Println(next)
 			for next != -1 {
 				temp++
 				if next == i {
