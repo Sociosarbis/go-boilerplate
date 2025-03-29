@@ -36,7 +36,6 @@ func longestCycle(edges []int) int {
 		queue = queue[l:]
 		l = len(queue)
 	}
-	fmt.Println(visited)
 	for i := 0; i < n; i++ {
 		if !visited[i] {
 			var temp int
@@ -44,7 +43,6 @@ func longestCycle(edges []int) int {
 			fmt.Println(next)
 			for next != -1 {
 				temp++
-				fmt.Println(temp)
 				if next == i {
 					if temp > ret {
 						ret = temp
