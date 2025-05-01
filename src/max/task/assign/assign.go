@@ -26,7 +26,7 @@ func check(tasks []int, workers []int, pills, strength int) bool {
 			} else {
 				return false
 			}
-			res := tree.LowerBound(avl.Integer(value)).GetCur()
+			res := tree.Search(avl.Integer(value))
 			if res == nil {
 				return false
 			}
