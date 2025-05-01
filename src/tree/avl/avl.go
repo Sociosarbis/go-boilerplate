@@ -173,6 +173,19 @@ func (self *AvlNode[T]) LowerBound(value T) *avlNodeIterator[T] {
 	return nil
 }
 
+func (self *AvlNode[T]) Search(value T) *AvlNode[T] {
+	if self == nil {
+		return nil
+	}
+	if self.value.lt(value) {
+		return self.right.Search(value)
+	}
+	if res := self.left.Search(value); res != nil {
+		return res
+	}
+	return self
+}
+
 type avlNodeIterator[T Comparable[T]] struct {
 	path []*AvlNode[T]
 	cur  *AvlNode[T]
