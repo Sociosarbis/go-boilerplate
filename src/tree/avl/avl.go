@@ -1,22 +1,22 @@
 package avl
 
 type Comparable[T any] interface {
-	gt(other T) bool
-	lt(other T) bool
-	eq(other T) bool
+	Gt(other T) bool
+	Lt(other T) bool
+	Eq(other T) bool
 }
 
 type Integer int
 
-func (self Integer) lt(other Integer) bool {
+func (self Integer) Lt(other Integer) bool {
 	return self < other
 }
 
-func (self Integer) gt(other Integer) bool {
+func (self Integer) Gt(other Integer) bool {
 	return self > other
 }
 
-func (self Integer) eq(other Integer) bool {
+func (self Integer) Eq(other Integer) bool {
 	return self == other
 }
 
@@ -83,11 +83,18 @@ func (self *AvlNode[T]) rightRotate() *AvlNode[T] {
 	return l
 }
 
-func (self *AvlNode[T]) getMinValueNode() *AvlNode[T] {
+func (self *AvlNode[T]) GetMinValueNode() *AvlNode[T] {
 	if self == nil || self.left == nil {
 		return self
 	}
-	return self.left.getMinValueNode()
+	return self.left.GetMinValueNode()
+}
+
+func (self *AvlNode[T]) GetMaxValueNode() *AvlNode[T] {
+	if self == nil || self.right == nil {
+		return self
+	}
+	return self.right.GetMaxValueNode()
 }
 
 func (self *AvlNode[T]) balance() *AvlNode[T] {
@@ -116,7 +123,7 @@ func (self *AvlNode[T]) Insert(value T) *AvlNode[T] {
 	if self == nil {
 		return NewAvlNode[T](value)
 	}
-	if value.lt(self.value) {
+	if value.Lt(self.value) {
 		self.left = self.left.Insert(value)
 	} else {
 		self.right = self.right.Insert(value)
@@ -128,9 +135,9 @@ func (self *AvlNode[T]) Delete(value T) *AvlNode[T] {
 	if self == nil {
 		return self
 	}
-	if value.lt(self.value) {
+	if value.Lt(self.value) {
 		self.left = self.left.Delete(value)
-	} else if value.gt(self.value) {
+	} else if value.Gt(self.value) {
 		self.right = self.right.Delete(value)
 	} else {
 		if self.left == nil {
@@ -138,7 +145,7 @@ func (self *AvlNode[T]) Delete(value T) *AvlNode[T] {
 		} else if self.right == nil {
 			return self.left
 		}
-		rm := self.right.getMinValueNode()
+		rm := self.right.GetMinValueNode()
 		self.value = rm.value
 		self.right = self.right.Delete(rm.value)
 	}
@@ -152,7 +159,7 @@ func (self *AvlNode[T]) LowerBound(value T) *avlNodeIterator[T] {
 	cur := self
 	path := []*AvlNode[T]{}
 	for cur != nil {
-		if cur.value.lt(value) {
+		if cur.value.Lt(value) {
 			path = append(path, cur)
 			cur = cur.right
 		} else {
@@ -166,7 +173,7 @@ func (self *AvlNode[T]) LowerBound(value T) *avlNodeIterator[T] {
 			path: path[:n-1],
 			cur:  path[n-1],
 		}
-		for ; ret.cur != nil && ret.cur.GetValue().lt(value); ret.Next() {
+		for ; ret.cur != nil && ret.cur.GetValue().Lt(value); ret.Next() {
 		}
 		return ret
 	}
@@ -177,13 +184,16 @@ func (self *AvlNode[T]) Search(value T) *AvlNode[T] {
 	if self == nil {
 		return nil
 	}
-	if self.value.lt(value) {
+	if self.value.Lt(value) {
 		return self.right.Search(value)
 	}
 	if res := self.left.Search(value); res != nil {
 		return res
 	}
-	return self
+	if self.value.Eq(value) {
+		return self
+	}
+	return nil
 }
 
 type avlNodeIterator[T Comparable[T]] struct {
