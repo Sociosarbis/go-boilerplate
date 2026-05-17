@@ -1,4 +1,4 @@
-package jump
+package reach
 
 func canReach(arr []int, start int) bool {
 	if arr[start] == 0 {
